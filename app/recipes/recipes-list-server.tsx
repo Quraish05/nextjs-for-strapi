@@ -1,40 +1,13 @@
-'use client';
-
-import { useQuery } from '@apollo/client/react';
-import { GET_RECIPES } from '@/graphql/recipes';
+import { getRecipes } from '@/app/api/recipes';
 import type { Recipe } from '@/types/recipe';
 import Link from 'next/link';
 
-export function RecipesList() {
-  const { data, loading, error } = useQuery<{ recipes: Recipe[] }>(GET_RECIPES);
-
-  if (loading) {
-    return (
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8">
-        <div className="text-center py-12">
-          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
-          <p className="mt-4 text-gray-600 dark:text-gray-400">Loading recipes...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8">
-        <div className="text-center py-12">
-          <p className="text-red-600 dark:text-red-400 mb-4">
-            Error loading recipes: {error.message}
-          </p>
-          <p className="text-sm text-gray-500 dark:text-gray-500">
-            Make sure Strapi is running and GraphQL is enabled.
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  const recipes = data?.recipes || [];
+/**
+ * Server Component for Recipes List
+ * Fetches data on the server for better performance and SEO
+ */
+export async function RecipesListServer() {
+  const recipes = await getRecipes();
 
   if (recipes.length === 0) {
     return (

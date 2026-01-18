@@ -1,0 +1,120 @@
+# Next.js Frontend Cursor Rules
+
+## 🔄 Reusable Functions & Code Reusability
+
+### API Error Handling
+- **ALWAYS** check for existing error handling utilities before creating new error handling code
+- If error handling utilities exist in `lib/utils/` or similar, **MUST** use them
+- If no error handling utilities exist, create reusable functions in `lib/utils/`:
+  - `handleApiError(error: unknown): ApiErrorResponse` - Standardized error response handler
+  - `handleFetchError(response: Response): Promise<never>` - Fetch API error handler
+  - `handleGraphQLError(error: ApolloError): ApiErrorResponse` - GraphQL error handler
+- **NEVER** duplicate error handling logic across multiple files
+- All API functions (`app/api/**/*.ts`) **MUST** use these reusable error handlers
+
+### Function Reusability Rules
+- Before creating a new function, **ALWAYS** search the codebase for similar functionality
+- If a similar function exists, refactor it to be reusable and use it instead
+- Create utility functions in `lib/utils/` for:
+  - Data transformation
+  - Validation
+  - Formatting
+  - Common business logic
+- Functions should be:
+  - Pure when possible (no side effects)
+  - Well-typed with TypeScript
+  - Documented with JSDoc comments
+  - Exported from a central `lib/utils/index.ts` file
+
+### API Response Patterns
+- **MUST** use consistent response patterns:
+  ```typescript
+  type ApiResponse<T> = {
+    data: T | null;
+    error: string | null;
+    success: boolean;
+  }
+  ```
+- All API route handlers should return this standardized format
+- Use `lib/utils/api-response.ts` if it exists, otherwise create it
+
+## 📝 Documentation Updates
+
+### Commit & Push Documentation Rules
+- **BEFORE** committing or pushing code, **MUST** update relevant documentation files:
+  - `README.md` - Update if project setup, dependencies, or major features changed
+  - `docs/*.md` - Update relevant documentation files based on changes:
+    - `docs/GRAPHQL_SETUP.md` - Update when GraphQL queries, mutations, or setup changes
+    - Any other relevant docs in `docs/` folder
+- Documentation updates should include:
+  - **Brief description** of what was developed or achieved
+  - **How to use** the new feature or change
+  - **Example code** if applicable
+  - **Configuration changes** if any
+  - **Breaking changes** if any
+- Documentation should be written so a **3rd person** can understand:
+  - What the feature does
+  - Why it was added
+  - How to use it
+  - What dependencies or setup it requires
+
+### Documentation Format
+- Use clear headings and sections
+- Include code examples with syntax highlighting
+- Add troubleshooting sections for common issues
+- Keep documentation concise but complete
+- Update the "What's Been Set Up" or similar sections when adding features
+
+## 🏗️ Code Structure
+
+### File Organization
+- API routes: `app/api/**/*.ts`
+- Components: `app/**/*.tsx`
+- Utilities: `lib/utils/**/*.ts`
+- Types: `types/**/*.ts`
+- GraphQL queries: `graphql/**/*.ts`
+
+### TypeScript Best Practices
+- **ALWAYS** use TypeScript types, avoid `any`
+- Define types in `types/` folder
+- Use type inference when possible
+- Export types from `types/index.ts`
+
+### Next.js Best Practices
+- Use Server Components by default
+- Use Client Components (`'use client'`) only when necessary
+- Use proper Next.js data fetching patterns (fetch, revalidate, etc.)
+- Follow Next.js 13+ App Router conventions
+
+## 🔍 Code Quality
+
+### Before Committing
+1. Check for reusable functions that could be used
+2. Refactor duplicate code into utilities
+3. Update all relevant documentation files
+4. Ensure TypeScript types are correct
+5. Test the changes locally
+
+### Error Handling
+- **NEVER** use `console.error` without proper error handling
+- **ALWAYS** return meaningful error messages to users
+- Log errors appropriately (server-side vs client-side)
+- Use error boundaries for React components
+
+## 📦 Dependencies
+
+### Adding Dependencies
+- Check if a similar package is already installed
+- Prefer well-maintained packages
+- Document why the dependency was added in commit message
+- Update `package.json` and run `npm install`
+
+## 🚀 Performance
+
+### Optimization Rules
+- Use Next.js Image component for images
+- Implement proper caching strategies
+- Use React.memo for expensive components
+- Lazy load components when appropriate
+- Optimize bundle size
+

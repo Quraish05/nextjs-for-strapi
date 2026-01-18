@@ -49,6 +49,12 @@ export default async function Home() {
               >
                 → View Recipes (GraphQL)
               </Link>
+              <Link
+                href="/ingredients"
+                className="block text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                → View Base Ingredients (GraphQL)
+              </Link>
             </div>
           </div>
 

@@ -1,15 +1,21 @@
-import { apolloClient } from '@/lib/apollo-client';
+import { executeGraphQL } from '@/lib/graphql-server';
 import { GET_RECIPES, GET_RECIPE } from '@/graphql/recipes';
 import type { Recipe, RecipesResponse, RecipeResponse } from '@/types/recipe';
+import { print } from 'graphql';
 
 /**
- * Fetch all recipes using GraphQL
+ * Fetch all recipes using GraphQL (Server-side)
+ * This function can be used in Server Components
+ * Data is cached for 60 seconds by default
+ * 
+ * Check your terminal/console to see the GraphQL request logs
  */
 export async function getRecipes(): Promise<Recipe[]> {
   try {
-    const { data } = await apolloClient.query<RecipesResponse>({
-      query: GET_RECIPES,
-      fetchPolicy: 'network-only', // Always fetch fresh data
+    const data = await executeGraphQL<RecipesResponse>({
+      query: print(GET_RECIPES),
+      revalidate: 60, // Cache for 60 seconds
+      operationName: 'GetRecipes',
     });
 
     return data?.recipes || [];
@@ -20,14 +26,19 @@ export async function getRecipes(): Promise<Recipe[]> {
 }
 
 /**
- * Fetch a single recipe by ID using GraphQL
+ * Fetch a single recipe by documentId using GraphQL (Server-side)
+ * This function can be used in Server Components
+ * Data is cached for 60 seconds by default
+ * 
+ * Check your terminal/console to see the GraphQL request logs
  */
-export async function getRecipe(id: string): Promise<Recipe | null> {
+export async function getRecipe(documentId: string): Promise<Recipe | null> {
   try {
-    const { data } = await apolloClient.query<RecipeResponse>({
-      query: GET_RECIPE,
-      variables: { id },
-      fetchPolicy: 'network-only',
+    const data = await executeGraphQL<RecipeResponse>({
+      query: print(GET_RECIPE),
+      variables: { documentId },
+      revalidate: 60, // Cache for 60 seconds
+      operationName: 'GetRecipe',
     });
 
     return data?.recipe || null;
@@ -36,4 +47,3 @@ export async function getRecipe(id: string): Promise<Recipe | null> {
     return null;
   }
 }
-
