@@ -1,36 +1,106 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js Frontend
 
-## Getting Started
+A modern Next.js frontend application that consumes content from Strapi CMS.
 
-First, run the development server:
+## 🚀 Tech Stack
+
+- **Next.js 16** - React framework with App Router
+- **TypeScript** - Type safety
+- **Tailwind CSS** - Styling
+
+## 📋 Prerequisites
+
+- Node.js (v20 or higher)
+- npm or yarn
+- Strapi backend running (see [strapi-backend](../strapi-backend) repository)
+
+## 🛠️ Setup Instructions
+
+### 1. Install Dependencies
+
+```bash
+npm install
+```
+
+### 2. Configure Environment Variables
+
+Create a `.env.local` file:
+```env
+NEXT_PUBLIC_STRAPI_URL=http://localhost:1337
+```
+
+Update the URL if your Strapi backend is running on a different host/port.
+
+### 3. Start Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application will be available at http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🌐 Access Points
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Frontend**: http://localhost:3000
+- **Strapi Admin Panel**: http://localhost:1337/admin (requires Strapi backend)
+- **Strapi API**: http://localhost:1337/api/articles (requires Strapi backend)
 
-## Learn More
+## 📝 Features
 
-To learn more about Next.js, take a look at the following resources:
+- Fetches articles from Strapi API
+- Displays article list with title, content preview, and publish date
+- Responsive design with Tailwind CSS
+- Dark mode support
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🔧 Available Scripts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `npm run dev` - Start Next.js development server
+- `npm run build` - Build Next.js for production
+- `npm run start` - Start Next.js production server
+- `npm run lint` - Run ESLint
 
-## Deploy on Vercel
+## 🗂️ Project Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+nextjs-frontend/
+├── app/              # Next.js App Router
+│   ├── page.tsx      # Home page
+│   ├── layout.tsx    # Root layout
+│   └── globals.css   # Global styles
+├── public/           # Static assets
+└── ...
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🔌 Connecting to Strapi
+
+The frontend fetches data from Strapi using the `NEXT_PUBLIC_STRAPI_URL` environment variable. Make sure:
+
+1. Strapi backend is running
+2. Articles are published (not just saved as draft)
+3. Public API permissions are enabled in Strapi Admin Panel
+4. CORS is configured in Strapi to allow requests from `http://localhost:3000`
+
+## 🐛 Troubleshooting
+
+### API Connection Issues
+- Verify Strapi backend is running on the URL specified in `.env.local`
+- Check browser console for API errors
+- Ensure CORS is properly configured in Strapi
+
+### No Articles Displayed
+- Make sure articles are published in Strapi (not just saved as draft)
+- Verify API permissions in Strapi Admin Panel (Settings → Roles → Public)
+- Check that the Article content type has `find` and `findOne` permissions enabled
+
+## 📚 Next Steps
+
+- Add article detail pages
+- Implement search functionality
+- Add pagination
+- Implement authentication
+- Add image optimization
+- Set up production deployment
+
+## 📄 License
+
+MIT
