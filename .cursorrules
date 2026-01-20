@@ -118,3 +118,24 @@
 - Lazy load components when appropriate
 - Optimize bundle size
 
+## 📊 GraphQL Best Practices
+
+### Fragment Usage Rules
+- **ALWAYS** create fragments for repeated query structures
+- If a query structure appears in 2+ places, **MUST** extract it into a fragment
+- Fragments should be:
+  - Defined in `graphql/fragments.ts`
+  - Named descriptively (e.g., `MealSlot`, `MealPrepPlanBasic`)
+  - Composed of smaller fragments when appropriate
+  - Documented with JSDoc comments explaining their usage
+- **NEVER** duplicate query field structures across multiple queries
+- When adding new queries, check if existing fragments can be reused
+- Fragment naming convention:
+  - Use PascalCase for fragment names
+  - Match the GraphQL type name when possible
+  - Add descriptive suffixes (e.g., `WithPlan`, `Basic`, `Full`)
+- Fragment composition:
+  - Smaller fragments should be composed into larger ones
+  - Use fragment spread (`...FragmentName`) to compose fragments
+  - All required fragments must be included in the query's fragment list
+
