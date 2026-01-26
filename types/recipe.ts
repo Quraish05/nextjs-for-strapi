@@ -2,11 +2,12 @@
  * Recipe types for GraphQL queries
  */
 
-import type { IngredientItem } from './ingredient';
+import type { IngredientItem, IngredientImage } from './ingredient';
 
 export interface Recipe {
   documentId: string;
   title: string;
+  coverImage?: IngredientImage | null;
   ingredientItems?: IngredientItem[] | null;
   createdAt: string;
   updatedAt: string;

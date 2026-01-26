@@ -3,6 +3,8 @@ import { getRecipe } from '@/app/api/recipes';
 import type { Recipe } from '@/types/recipe';
 import { IngredientsTable } from '../ingredients-table';
 import BackButton from '@/components/back-button';
+import Image from 'next/image';
+import { getStrapiImageUrl } from '@/lib/image-utils';
 
 interface RecipeDetailPageProps {
   params: Promise<{ id: string }>;
@@ -44,6 +46,24 @@ export default async function RecipeDetailPage({
           <BackButton className="inline-flex items-center text-orange-600 dark:text-orange-400 hover:underline mb-6" />
 
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden">
+            {/* Cover Image */}
+            {recipe.coverImage?.url ? (
+              <div className="relative w-full h-96 bg-gray-100 dark:bg-gray-700">
+                <Image
+                  src={getStrapiImageUrl(recipe.coverImage.url)}
+                  alt={recipe.coverImage.alternativeText || recipe.title || 'Recipe cover'}
+                  fill
+                  className="object-cover"
+                  sizes="100vw"
+                  priority
+                />
+              </div>
+            ) : (
+              <div className="w-full h-96 bg-gradient-to-br from-orange-100 to-amber-100 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center">
+                <span className="text-9xl">🍳</span>
+              </div>
+            )}
+
             {/* Header */}
             <div className="p-8 border-b border-gray-200 dark:border-gray-700">
               <div className="flex items-start justify-between mb-4">

@@ -162,3 +162,86 @@ export const MEAL_SLOT_WITH_PLAN_FRAGMENT = gql`
   }
 `;
 
+/**
+ * Fragment for recipe basic fields (used in menu links and teasers)
+ */
+export const RECIPE_BASIC_FRAGMENT = gql`
+  fragment RecipeBasic on Recipe {
+    documentId
+    title
+  }
+`;
+
+/**
+ * Fragment for recipe with cover image (used in menu links for hover preview)
+ */
+export const RECIPE_WITH_IMAGE_FRAGMENT = gql`
+  fragment RecipeWithImage on Recipe {
+    ...RecipeBasic
+    coverImage {
+      ...IngredientImage
+    }
+  }
+  ${RECIPE_BASIC_FRAGMENT}
+  ${INGREDIENT_IMAGE_FRAGMENT}
+`;
+
+/**
+ * Fragment for menu link component
+ */
+export const MENU_LINK_FRAGMENT = gql`
+  fragment MenuLink on ComponentMegaMenuMenuLink {
+    linkText
+    linkType
+    customUrl
+    recipe {
+      ...RecipeWithImage
+    }
+    ingredient {
+      documentId
+      name
+      slug
+    }
+    mealPrepPlan {
+      documentId
+      title
+      weekStartDate
+    }
+  }
+  ${RECIPE_WITH_IMAGE_FRAGMENT}
+`;
+
+/**
+ * Fragment for menu teaser component
+ */
+export const MENU_TEASER_FRAGMENT = gql`
+  fragment MenuTeaser on ComponentMegaMenuMenuTeaser {
+    title
+    recipe {
+      ...RecipeBasic
+    }
+    image {
+      ...IngredientImage
+    }
+  }
+  ${RECIPE_BASIC_FRAGMENT}
+  ${INGREDIENT_IMAGE_FRAGMENT}
+`;
+
+/**
+ * Fragment for menu section component
+ */
+export const MENU_SECTION_FRAGMENT = gql`
+  fragment MenuSection on ComponentMegaMenuMenuSection {
+    sectionLabel
+    menuLinks {
+      ...MenuLink
+    }
+    teaserColumn {
+      ...MenuTeaser
+    }
+  }
+  ${MENU_LINK_FRAGMENT}
+  ${MENU_TEASER_FRAGMENT}
+`;
+

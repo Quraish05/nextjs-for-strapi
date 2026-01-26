@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
+import { MegaMenu } from './mega-menu';
 
 export function Navbar() {
   const pathname = usePathname();
@@ -34,25 +35,9 @@ export function Navbar() {
             <span>Recipe App</span>
           </Link>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation - Mega Menu */}
           <div className="hidden md:flex items-center gap-1">
-            {navItems.map((item) => {
-              const active = isActive(item.href);
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
-                    active
-                      ? 'bg-orange-100 text-orange-700 dark:bg-orange-900 dark:text-orange-300'
-                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-orange-600 dark:hover:text-orange-400'
-                  }`}
-                >
-                  <span>{item.icon}</span>
-                  <span>{item.label}</span>
-                </Link>
-              );
-            })}
+            <MegaMenu />
           </div>
 
           {/* Mobile Menu Button */}
