@@ -4,6 +4,6 @@
  */
 
 export * from './recipe';
-export * from './article';
+// export * from './article';
 export * from './ingredient';
 

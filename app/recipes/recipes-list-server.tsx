@@ -1,6 +1,8 @@
 import { getRecipes } from '@/app/api/recipes';
 import type { Recipe } from '@/types/recipe';
 import Link from 'next/link';
+import Image from 'next/image';
+import { getStrapiImageUrl } from '@/lib/image-utils';
 
 /**
  * Server Component for Recipes List
@@ -32,16 +34,39 @@ export async function RecipesListServer() {
         </h2>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {recipes.map((recipe) => (
-          <Link
-            key={recipe.documentId}
-            href={`/recipes/${recipe.documentId}`}
-            className="block border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-lg transition-all bg-gray-50 dark:bg-gray-900 hover:border-orange-300 dark:hover:border-orange-700 cursor-pointer"
-          >
-            <div className="mb-4">
-              <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-3">
-                {recipe.title || 'Untitled Recipe'}
-              </h3>
+        {recipes.map((recipe) => {
+          const coverImageUrl = recipe.coverImage?.url
+            ? getStrapiImageUrl(recipe.coverImage.url)
+            : null;
+
+          return (
+            <Link
+              key={recipe.documentId}
+              href={`/recipes/${recipe.documentId}`}
+              className="block border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden hover:shadow-lg transition-all bg-gray-50 dark:bg-gray-900 hover:border-orange-300 dark:hover:border-orange-700 cursor-pointer"
+            >
+              {/* Cover Image */}
+              {coverImageUrl ? (
+                <div className="relative w-full h-48 bg-gray-100 dark:bg-gray-700">
+                  <Image
+                    src={coverImageUrl}
+                    alt={recipe.coverImage?.alternativeText || recipe.title || 'Recipe cover'}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
+                  />
+                </div>
+              ) : (
+                <div className="w-full h-48 bg-gradient-to-br from-orange-100 to-amber-100 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center">
+                  <span className="text-6xl">🍳</span>
+                </div>
+              )}
+
+              <div className="p-6">
+                <div className="mb-4">
+                  <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-3">
+                    {recipe.title || 'Untitled Recipe'}
+                  </h3>
               <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
                 {recipe.publishedAt && (
                   <span>
@@ -78,8 +103,10 @@ export async function RecipesListServer() {
                 </p>
               </div>
             )}
-          </Link>
-        ))}
+              </div>
+            </Link>
+          );
+        })}
       </div>
     </div>
   );

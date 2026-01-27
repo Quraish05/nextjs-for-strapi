@@ -1,14 +1,14 @@
-/**
- * Article types for REST API
- */
+// /**
+//  * Article types for REST API
+//  */
 
-export interface Article {
-  id: number;
-  attributes: {
-    title: string;
-    content: string;
-    slug: string;
-    publishedAt: string;
-  };
-}
+// export interface Article {
+//   id: number;
+//   attributes: {
+//     title: string;
+//     content: string;
+//     slug: string;
+//     publishedAt: string;
+//   };
+// }
 

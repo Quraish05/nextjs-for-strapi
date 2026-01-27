@@ -12,6 +12,10 @@ const nextConfig: NextConfig = {
         pathname: '/uploads/**',
       },
     ],
+    // Disable image optimization to avoid "url parameter is not allowed" error
+    // This is a workaround for Next.js 16 security validation
+    // Images will still load, just without Next.js optimization
+    unoptimized: true,
   },
 };
 

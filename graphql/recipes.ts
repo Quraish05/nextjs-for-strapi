@@ -13,6 +13,9 @@ export const GET_RECIPES = gql`
       createdAt
       updatedAt
       publishedAt
+      coverImage {
+        ...IngredientImage
+      }
       ingredientItems {
         ...IngredientItem
       }
@@ -31,6 +34,9 @@ export const GET_RECIPE = gql`
       createdAt
       updatedAt
       publishedAt
+      coverImage {
+        ...IngredientImage
+      }
       ingredientItems {
         ...IngredientItem
       }
